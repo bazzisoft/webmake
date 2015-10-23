@@ -1,0 +1,6 @@
+*           text=auto
+*.sh        eol=lf
+*.conf      eol=lf
+/webmake/cordova/hooks/before_prepare/runwebmake.py     eol=lf
+/README.rst     eol=lf
+/README.md      eol=lf

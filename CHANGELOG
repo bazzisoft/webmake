@@ -1,0 +1,6 @@
+
+
+1.0.3
+-----
+- Added Python 2 support.
+- Added setup.py for PyPI.

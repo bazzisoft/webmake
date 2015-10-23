@@ -1,0 +1,8 @@
+venv
+node_modules
+__pycache__
+*.pyc
+*.swp
+/test_project/webmakefile.py.depscache
+/webmake.egg-info
+/tests/test_project/webmakefile.py.depscache
