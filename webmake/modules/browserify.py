@@ -47,6 +47,9 @@ def browserify_run(cmdline, errmsg, output_file, release, list_deps):
     env = {'NODE_ENV': 'production'} if release else None
 
     try:
+        if output_file:
+            utils.ensure_path_exists(os.path.dirname(output_file))
+
         output = utils.run_command(cmdline, errmsg, env=env)
         if list_deps:
             return [os.path.abspath(p) for p in output.splitlines()]
@@ -117,7 +120,6 @@ def browserify_file(entry_point, output_file=None, release=False, list_deps=Fals
             '-r',
             '{}:{}'.format(f, export_as)
         ])
-
 
     return browserify_run(cmdline, errmsg, output_file, release, list_deps)
 

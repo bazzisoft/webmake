@@ -1,13 +1,5 @@
 {
-  "name": "webmake",
-  "version": "1.0.0",
-  "description": "",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:bazzisoft/webmake.git"
-  },
-  "author": "Barak Shohat",
-  "license": "MIT",
+  "private": true,
   "dependencies": {
     "browserify": "9.x",
     "cssmin": "0.x",

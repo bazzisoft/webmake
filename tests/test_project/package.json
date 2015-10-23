@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "dependencies": {
+    "bootstrap": "3.x",
+    "fastclick": "1.x",
+    "jquery": "1.x",
+    "react": "0.13.x",
+    "underscore": "1.x"
+  }
+}

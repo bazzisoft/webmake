@@ -86,6 +86,12 @@ def list_matching_files(path, extensions=None, recursive=True, linux_style_paths
     return result
 
 
+def ensure_path_exists(path):
+    path = os.path.abspath(path)
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
 def ensure_deleted(*args):
     for file in args:
         try:

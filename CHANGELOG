@@ -1,5 +1,12 @@
 
 
+1.0.4
+-----
+- Improved documentation.
+- Fixed some npm warnings.
+- Added test project.
+
+
 1.0.3
 -----
 - Added Python 2 support.
