@@ -28,14 +28,14 @@ def minify_js(input_files, output_file, release=False):
 def minify_css(input_files, output_file, release=False):
     assert isinstance(input_files, (list, tuple))
 
+    concat.concatenate_input_files(input_files, output_file, release=release)
     if not release:
-        concat.concatenate_input_files(input_files, output_file, release=release)
         return
 
     cmdline = [
         utils.get_node_bin_dir('cssmin'),
     ]
-    cmdline.extend(input_files)
+    cmdline.append(output_file)
 
     try:
         output = utils.run_command(cmdline, 'Failed to minify CSS to "{}"'.format(output_file))
