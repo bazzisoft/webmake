@@ -123,7 +123,7 @@ def get_node_bin_dir(cmd=None):
 
 def no_dependencies(input):
     if not isinstance(input, (list, tuple)):
-        input = [input]
+        return [input]
     else:
         return input
 

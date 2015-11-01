@@ -44,4 +44,7 @@ MAKEFILE = [
 
     # Concatenate standalone files with no further processing.
     api.concatenate(['www-dev/js/standalone.js'] * 2, 'www/js/standalone-x2.js'),
+
+    # Split final CSS into several files to overcome IE's 4096 selector limit (IE9 and before).
+    api.split_css_for_ie_selector_limit('www/css/styles.css', 'www/css/styles-blessed.css'),
 ]

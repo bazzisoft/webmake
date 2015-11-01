@@ -1,4 +1,9 @@
 
+1.0.6
+-----
+- Added blessc compiler for splitting large CSS files (IE 4096 selector limit).
+
+
 1.0.5
 -----
 - Bugfixes for sass + minifyjs compilation.
