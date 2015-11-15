@@ -1,4 +1,9 @@
 
+1.0.7
+-----
+- Improved webmk script path detection in Django middleware.
+
+
 1.0.6
 -----
 - Added blessc compiler for splitting large CSS files (IE 4096 selector limit).

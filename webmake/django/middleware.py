@@ -35,13 +35,20 @@ PROJECT_ROOT = os.path.abspath(os.path.join(re.sub(r'settings[/\\]?$', '', SETTI
 WEBMAKE_BIN = 'webmk'
 WEBMAKEFILE = os.path.join(PROJECT_ROOT, 'webmakefile.py')
 
+POSSIBLE_BINFILES = [f for f in (
+                         os.path.join(os.path.dirname(sys.executable), WEBMAKE_BIN),
+                         os.path.join(os.path.dirname(sys.executable), WEBMAKE_BIN + '.exe'),
+                     ) if os.path.isfile(f)]
+
+BINFILE = POSSIBLE_BINFILES[0] if POSSIBLE_BINFILES else WEBMAKE_BIN
+
 
 class WebmakeCompilerMiddleware:
     def process_request(self, request):
         if not settings.DEBUG:
             warnings.warn('WebmakeCompilerMiddleware should not be used in production!', RuntimeWarning)
 
-        cmd = ' '.join([WEBMAKE_BIN, '-m', WEBMAKEFILE])
+        cmd = ' '.join([BINFILE, '-m', WEBMAKEFILE])
         env = os.environ.copy()
         env.pop('PYTHONPATH', None)
 
