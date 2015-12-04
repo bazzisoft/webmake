@@ -3,7 +3,7 @@ import re
 from . import utils
 
 
-LESS_IMPORT_RE = re.compile(r"""@import\s+['"](.+?\.less)['"]\s*;""")
+LESS_IMPORT_RE = re.compile(r"""@import\s+['"](.+?(?:\.less)?)['"]\s*;""")
 
 
 def _read_less_imports(file):

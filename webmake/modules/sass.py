@@ -3,7 +3,7 @@ import re
 from . import utils
 
 
-SASS_IMPORT_RE = re.compile(r"""@import\s+['"](.+?\.s[ca]ss)['"]\s*;""")
+SASS_IMPORT_RE = re.compile(r"""@import\s+['"](.+?(?:\.s[ca]ss)?)['"]\s*;""")
 
 
 def _read_sass_imports(file):
@@ -19,7 +19,7 @@ def _read_sass_imports(file):
         elif os.path.isfile(os.path.join(sass_dir, imp)):
             deps.append(os.path.abspath(os.path.join(sass_dir, imp)))
         else:
-            raise ValueError('Invalid LESS import in {}: {}'.format(file, imp))
+            raise ValueError('Invalid SASS import in {}: {}'.format(file, imp))
     return deps
 
 
