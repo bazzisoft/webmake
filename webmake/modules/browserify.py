@@ -25,7 +25,7 @@ def browserify_basic_command(output_file, release, list_deps):
     sourcemap = '-d' if not release else ''
 
     cmdline = [
-        utils.get_node_bin_dir('browserify'),
+        utils.get_node_bin_path('browserify', 'bin', 'cmd.js'),
     ]
 
     if list_deps:

@@ -134,12 +134,8 @@ def get_node_modules_dir(module=None):
         return moduledir
 
 
-def get_node_bin_dir(cmd=None):
-    bindir = get_node_modules_dir('.bin')
-    if cmd:
-        return os.path.join(bindir, cmd)
-    else:
-        return bindir
+def get_node_bin_path(*args):
+    return os.path.join(get_node_modules_dir(), *args)
 
 
 def no_dependencies(input):
@@ -149,7 +145,7 @@ def no_dependencies(input):
         return input
 
 
-def run_command(cmd, errmsg, env=None):
+def run_command(cmd, errmsg, env=None, with_node=True):
     if env is not None:
         newenv = os.environ.copy()
         newenv.update(env)
@@ -157,6 +153,9 @@ def run_command(cmd, errmsg, env=None):
 
     if isinstance(cmd, (list, tuple)):
         cmd = ' '.join(c for c in cmd if c != '')
+
+    if with_node:
+        cmd = 'node ' + cmd
 
     try:
         logv('>>> ' + cmd)

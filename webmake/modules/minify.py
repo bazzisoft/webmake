@@ -9,7 +9,7 @@ def minify_js(input_files, output_file, release=False):
         return
 
     cmdline = [
-        utils.get_node_bin_dir('uglifyjs'),
+        utils.get_node_bin_path('uglify-js', 'bin', 'uglifyjs'),
         '--compress',
         '--mangle',
         '-o',
@@ -33,7 +33,7 @@ def minify_css(input_files, output_file, release=False):
         return
 
     cmdline = [
-        utils.get_node_bin_dir('cssmin'),
+        utils.get_node_bin_path('cssmin', 'bin', 'cssmin'),
     ]
     cmdline.append(output_file)
 

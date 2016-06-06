@@ -1,4 +1,9 @@
 
+1.0.13
+------
+- Bugfix: Resolved errors with `npm install` on linux with bdist_wheel (https://github.com/bazzisoft/webmake/issues/2).
+
+
 1.0.7
 -----
 - Improved webmk script path detection in Django middleware.

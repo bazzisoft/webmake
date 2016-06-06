@@ -29,7 +29,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 def _post_install(dir):
     oldwd = os.getcwd()
     os.chdir(dir)
-    os.system('npm install --color false --unicode false')
+    os.system('npm install --no-bin-links --color false --unicode false')
     os.chdir(oldwd)
 
 
@@ -61,7 +61,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.7',
+    version='1.0.13',
 
     description=short_description,
     long_description=long_description,

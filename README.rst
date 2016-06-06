@@ -200,24 +200,25 @@ PyPI Releases
 - https://packaging.python.org/en/latest/distributing/
 - http://peterdowns.com/posts/first-time-with-pypi.html
 
-1. Update version number in ``setup.py``.
-2. Start Python3 virtualenv from ``tests/test_project/venv``.
-3. Create a package to test with::
+1. Update CHANGELOG.
+2. Update version number in ``setup.py``.
+3. Start Python3 virtualenv from ``tests/test_project/venv``.
+4. Create a package to test with::
 
         python setup.py sdist
 
-4. If first release, register on test site::
+5. If first release, register on test site::
 
         python setup.py register -r pypitest
 
-5. Build & submit new release::
+6. Build & submit new release::
 
         python setup.py sdist upload -r pypitest
 
-6. If first release, register on live site::
+7. If first release, register on live site::
 
         python setup.py register -r pypi
 
-7. Build & submit new release::
+8. Build & submit new release::
 
         python setup.py sdist upload -r pypi

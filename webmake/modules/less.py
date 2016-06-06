@@ -42,7 +42,7 @@ def less_compile(input_file, output_file, release=False):
                  if not release else '')
 
     cmdline = [
-        utils.get_node_bin_dir('lessc'),
+        utils.get_node_bin_path('less', 'bin', 'lessc'),
         '--no-color',
         minify,
         sourcemap,

@@ -13,7 +13,7 @@ def jsx_compile(input_files, output_file, release=False):
     sourcemap = '--source-map-inline' if not release else ''
 
     cmdline = [
-        utils.get_node_bin_dir('jsx'),
+        utils.get_node_bin_path('react-tools', 'bin', 'jsx'),
         '--no-cache-dir',
         sourcemap,
         '--extension',
