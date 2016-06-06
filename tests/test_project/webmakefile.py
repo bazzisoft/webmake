@@ -21,6 +21,9 @@ MAKEFILE = [
     # Compile LESS
     api.compile_less('www-dev/less/base.less', 'www/css/base.css'),
 
+    # Compile SASS/SCSS
+    api.compile_sass('www-dev/scss/base.scss', 'www/css/base-scss.css'),
+
     # Broserify vendor javascript libs from node_modules
     api.browserify_node_modules(NODE_MODULES, 'www/js/vendor.js'),
 

@@ -14,12 +14,12 @@ def _read_less_imports(file):
     less_dir = os.path.dirname(file)
 
     for imp in imports:
-        if os.path.isabs(imp):
-            deps.append(imp)
-        elif os.path.isfile(os.path.join(less_dir, imp)):
-            deps.append(os.path.abspath(os.path.join(less_dir, imp)))
+        dep = utils.resolve_possible_paths(imp, less_dir, ['.less'])
+        if dep:
+            deps.append(dep)
         else:
             raise ValueError('Invalid LESS import in {}: {}'.format(file, imp))
+
     return deps
 
 

@@ -105,6 +105,27 @@ def rename(old, new):
     os.rename(old, new)
 
 
+def resolve_possible_paths(path, relative_prefix, possible_extensions=None):
+    """
+    Attempts to resolve the given absolute or relative ``path``. If it
+    doesn't exist as is, tries to create an absolute path using the
+    ``relative_prefix``. If that fails, tries relative/absolute versions
+    with each of ``possible_extensions``.
+
+    :returns: The absolute path, or ``None`` if no such file can be found.
+    """
+    possible_extensions = [''] + list(possible_extensions) if possible_extensions else ['']
+    possible_paths = [path + e if os.path.isabs(path + e) else os.path.join(relative_prefix, path + e)
+                      for e in possible_extensions]
+
+    for p in possible_paths:
+        p = os.path.normpath(p)
+        if os.path.isfile(p):
+            return p
+
+    return None
+
+
 def get_node_modules_dir(module=None):
     moduledir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'node_modules'))
     if module:

@@ -14,12 +14,12 @@ def _read_sass_imports(file):
     sass_dir = os.path.dirname(file)
 
     for imp in imports:
-        if os.path.isabs(imp):
-            deps.append(imp)
-        elif os.path.isfile(os.path.join(sass_dir, imp)):
-            deps.append(os.path.abspath(os.path.join(sass_dir, imp)))
+        dep = utils.resolve_possible_paths(imp, sass_dir, ['.scss', '.sass'])
+        if dep:
+            deps.append(dep)
         else:
             raise ValueError('Invalid SASS import in {}: {}'.format(file, imp))
+
     return deps
 
 
