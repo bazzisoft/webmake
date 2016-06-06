@@ -2,6 +2,9 @@
 1.0.7
 -----
 - Improved webmk script path detection in Django middleware.
+- Bugfix: Corrected dependency path resolution for less + scss
+- Added scss compilation to test project
+- Added custom function compiler
 
 
 1.0.6

@@ -13,6 +13,12 @@ NODE_MODULES = [
 JSX_INPUTS = api.list_matching_files('www-dev/jsx', extensions='jsx', recursive=False)
 
 
+def custom_compiler(input_files, output_file, release):
+    with open(output_file, 'w') as f:
+        f.write('DEBUG\n\n' if not release else 'RELEASE\n\n')
+        f.write('Hello there!')
+
+
 MAKEFILE = [
     # Copy static assets
     api.copy_files('www-dev', 'www', 'index.html'),
@@ -50,4 +56,7 @@ MAKEFILE = [
 
     # Split final CSS into several files to overcome IE's 4096 selector limit (IE9 and before).
     api.split_css_for_ie_selector_limit('www/css/styles.css', 'www/css/styles-blessed.css'),
+
+    # Run a custom function to create an output file
+    api.custom_function(custom_compiler, 'www-dev/index.html', 'www/custom-compiler.txt'),
 ]

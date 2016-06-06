@@ -255,3 +255,21 @@ def browserify_file(entry_point, output_file, use_reactjs=False, export_as=None)
             'export_as': export_as,
         },
     }
+
+
+def custom_function(func, input_files, output_file):
+    """
+    Calls a custom function which must create the output file.
+
+    The custom function takes 3 parameters: ``input_files``,
+    ``output_file`` and a boolean ``release``.
+    """
+    from .modules import utils
+
+    return {
+        'dependencies_fn': utils.no_dependencies,
+        'compiler_fn': func,
+        'input': input_files,
+        'output': output_file,
+        'kwargs': {},
+    }
