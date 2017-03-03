@@ -1,4 +1,9 @@
 
+1.0.14
+------
+- Raise an error if `node` or `npm` are not installed.
+
+
 1.0.13
 ------
 - Bugfix: Resolved errors with `npm install` on linux with bdist_wheel (https://github.com/bazzisoft/webmake/issues/2).

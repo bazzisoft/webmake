@@ -4,7 +4,6 @@ See:
 https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
-
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 from setuptools.command.install import install as setuptools_install
@@ -13,6 +12,8 @@ from setuptools.command.develop import develop as setuptools_develop
 from codecs import open
 from os import path
 import os
+import sys
+import subprocess
 
 
 here = path.abspath(path.dirname(__file__))
@@ -23,6 +24,24 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     contents = f.read()
     short_description = contents.splitlines()[2]
     long_description = '\n'.join(contents.splitlines()[2:]).split('----------')[0]
+
+    
+# Ensure required packages are installed
+def program_is_installed(msg, prog):
+    try:        
+        sys.stdout.write(msg)
+        sys.stdout.flush()
+        subprocess.check_call(prog, shell=True)
+    except:
+        return False
+    return True
+    
+   
+if not program_is_installed('Detecting nodejs...', 'node -v') or not program_is_installed('Detecting npm...', 'npm -v'):
+    sys.stderr.write('\n' + '-' * 79)
+    sys.stderr.write('\nERROR: webmake requires `node` and `npm` to be available prior to installation.')
+    sys.stderr.write('\n' + '-' * 79 + '\n\n')
+    raise Exception('webmake requires `node` and `npm` to be available prior to installation.')
 
 
 # Setup post install script
@@ -61,7 +80,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.13',
+    version='1.0.14',
 
     description=short_description,
     long_description=long_description,
