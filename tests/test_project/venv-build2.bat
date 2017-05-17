@@ -4,6 +4,7 @@ pause
 rmdir /s /q venv
 call ..\..\..\..\environments\python2.7\virtualenv.bat venv
 call venv\Scripts\activate.bat
+call python -m pip install --upgrade pip
 call pip install pylint
 call pip install -e ..\..
 call npm install

@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 from fnmatch import fnmatch
 from . import utils
@@ -6,9 +7,13 @@ from . import utils
 
 def list_files(src_dir, filespec, recursive=False):
     inputs = []
+    filespecs = [filespec] if not isinstance(filespec, (list, tuple)) else filespec
+
+    def match_file(f):
+        return any(fnmatch(f, s) for s in filespecs)
 
     for dir, _, files in os.walk(src_dir):
-        inputs.extend(os.path.join(dir, f) for f in files if fnmatch(f, filespec))
+        inputs.extend(os.path.join(dir, f) for f in files if match_file(f))
         if not recursive:
             break
 
@@ -32,7 +37,7 @@ def copy_files(src_dir, dst_dir, filespec, recursive=False, release=None):
         utils.logv('>>> copy {} > {}'.format(input, output))
         dirname = os.path.split(output)[0]
         if not os.path.exists(dirname):
-            os.mkdir(dirname)
+            os.makedirs(dirname)
         shutil.copy2(input, output)
 
     os.utime(dst_dir, None)

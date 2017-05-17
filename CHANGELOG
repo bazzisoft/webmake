@@ -1,4 +1,10 @@
 
+1.0.15
+------
+- copyfiles module creates intermediate target dirs as needed inside target root dir.
+- copyfiles filespec can receive a list of filespecs or just a single one.
+
+
 1.0.14
 ------
 - Raise an error if `node` or `npm` are not installed.
