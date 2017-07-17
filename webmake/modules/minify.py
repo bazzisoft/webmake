@@ -4,9 +4,12 @@ from . import utils, concat
 def minify_js(input_files, output_file, release=False):
     assert isinstance(input_files, (list, tuple))
 
+    concat.concatenate_input_files(input_files, output_file, release=release)
+
     if not release:
-        concat.concatenate_input_files(input_files, output_file, release=release)
         return
+
+    annotate_angular_injections(output_file, output_file)
 
     cmdline = [
         utils.get_node_bin_path('uglify-js', 'bin', 'uglifyjs'),
@@ -20,6 +23,22 @@ def minify_js(input_files, output_file, release=False):
 
     try:
         utils.run_command(cmdline, 'Failed to minify JS to "{}"'.format(output_file))
+    except:
+        utils.ensure_deleted(output_file)
+        raise
+
+
+def annotate_angular_injections(input_file, output_file):
+    cmdline = [
+        utils.get_node_bin_dir('ng-annotate'),
+        '--add',
+        '-o',
+        output_file,
+    ]
+    cmdline.extend([input_file])
+
+    try:
+        utils.run_command(cmdline, 'Failed to annotate Angular injections to "{}"'.format(output_file))
     except:
         utils.ensure_deleted(output_file)
         raise

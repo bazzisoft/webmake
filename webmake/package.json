@@ -8,6 +8,7 @@
     "react-tools": "0.x",
     "reactify": "1.x",
     "uglify-js": "2.x",
-    "bless": "3.x"
+    "bless": "3.x",
+    "ng-annotate": "1.x"
   }
 }
