@@ -44,6 +44,13 @@ BINFILE = POSSIBLE_BINFILES[0] if POSSIBLE_BINFILES else WEBMAKE_BIN
 
 
 class WebmakeCompilerMiddleware:
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        self.process_request(request)
+        return self.get_response(request)
+
     def process_request(self, request):
         if not settings.DEBUG:
             warnings.warn('WebmakeCompilerMiddleware should not be used in production!', RuntimeWarning)
