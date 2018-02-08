@@ -105,7 +105,7 @@ def rename(old, new):
     os.rename(old, new)
 
 
-def resolve_possible_paths(path, relative_prefix, possible_extensions=None):
+def resolve_possible_paths(path, relative_prefix, possible_extensions=None, leading_underscore=False):
     """
     Attempts to resolve the given absolute or relative ``path``. If it
     doesn't exist as is, tries to create an absolute path using the
@@ -117,6 +117,11 @@ def resolve_possible_paths(path, relative_prefix, possible_extensions=None):
     possible_extensions = [''] + list(possible_extensions) if possible_extensions else ['']
     possible_paths = [path + e if os.path.isabs(path + e) else os.path.join(relative_prefix, path + e)
                       for e in possible_extensions]
+
+    if leading_underscore and not os.path.basename(path).startswith('_'):
+        extra_paths = [os.path.join(os.path.dirname(p), '_' + os.path.basename(p))
+                       for p in possible_paths]
+        possible_paths = possible_paths + extra_paths
 
     for p in possible_paths:
         p = os.path.normpath(p)

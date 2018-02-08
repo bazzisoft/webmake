@@ -158,26 +158,7 @@ def compile_sass(input_file, output_file):
     }
 
 
-def compile_reactjsx(input_files, output_file):
-    """
-    Concatenates and compiles a set of ReactJS JSX files
-    into a single output file.
-    """
-    from .modules import utils, reactjs
-
-    if not isinstance(input_files, (list, tuple)):
-        raise RuntimeError('ReactJS compiler takes a list of input files.')
-
-    return {
-        'dependencies_fn': utils.no_dependencies,
-        'compiler_fn': reactjs.jsx_compile,
-        'input': input_files,
-        'output': output_file,
-        'kwargs': {},
-    }
-
-
-def browserify_node_modules(module_name_list, output_file):
+def browserify_node_modules(module_name_list, output_file, babelify=False):
     """
     Browserify a list of libraries from node_modules into a single
     javascript file. Generates source maps in debug mode. Minifies the
@@ -196,11 +177,13 @@ def browserify_node_modules(module_name_list, output_file):
         'compiler_fn': browserify.browserify_compile_node_modules,
         'input': module_name_list,
         'output': output_file,
-        'kwargs': {},
+        'kwargs': {
+            'babelify': babelify,
+        },
     }
 
 
-def browserify_libs(lib_dirs, output_file, use_reactjs=False):
+def browserify_libs(lib_dirs, output_file, babelify=False):
     """
     Browserify one or more library directories into a single
     javascript file. Generates source maps in debug mode. Minifies the
@@ -224,12 +207,12 @@ def browserify_libs(lib_dirs, output_file, use_reactjs=False):
         'input': lib_dirs,
         'output': output_file,
         'kwargs': {
-            'use_reactjs': use_reactjs,
+            'babelify': babelify,
         },
     }
 
 
-def browserify_file(entry_point, output_file, use_reactjs=False, export_as=None):
+def browserify_file(entry_point, output_file, babelify=False, export_as=None):
     """
     Browserify a single javascript entry point plus non-external
     dependencies into a single javascript file. Generates source maps
@@ -251,7 +234,7 @@ def browserify_file(entry_point, output_file, use_reactjs=False, export_as=None)
         'input': entry_point,
         'output': output_file,
         'kwargs': {
-            'use_reactjs': use_reactjs,
+            'babelify': babelify,
             'export_as': export_as,
         },
     }

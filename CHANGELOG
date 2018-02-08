@@ -1,4 +1,15 @@
 
+2.0.0
+-----
+- **NOTE:** Breaks backwards compatibility!
+- Upgrade all compiler tools to latest versions.
+- Update `uglify-js` with `uglify-es`.
+- Removed standalone React.js compiler.
+- Removed reactify plugin to Browserify.
+- Added babelify plugin to Browserify, with ES2015 and React JSX support activated.  
+- Updated test project with support for latest React.js.
+
+
 1.0.16
 ------
 - Add support for new-style middleware in Django 1.10.

@@ -2,14 +2,16 @@ import os
 from . import utils, minify
 
 
-def get_extensions_and_params(use_reactjs=False):
+def get_extensions_and_params(babelify=False):
     extensions = ['.js']
     params = []
 
-    if use_reactjs:
-        reactify = utils.get_node_modules_dir('reactify')
+    if babelify:
+        babelify = utils.get_node_modules_dir('babelify')
+        preset_es2015 = utils.get_node_modules_dir('babel-preset-es2015')
+        preset_react = utils.get_node_modules_dir('babel-preset-react')
         extensions.extend(['.jsx'])
-        params.extend(['-t', '[', reactify, '--extension', 'jsx', ']', '--extension=.jsx'])
+        params.extend(['-t', '[', babelify, '--presets', '[', preset_es2015, preset_react, ']', ']'])
 
     return (extensions, params)
 
@@ -61,10 +63,13 @@ def browserify_run(cmdline, errmsg, output_file, release, list_deps):
         raise
 
 
-def browserify_node_modules(module_list, output_file=None, release=False, list_deps=False):
+def browserify_node_modules(module_list, output_file=None, release=False, list_deps=False, babelify=False):
+    (_, params) = get_extensions_and_params(babelify=babelify)
     errmsg = browserify_basic_error('browserify_node_modules', output_file, list_deps)
+
     # No source maps for vendor libs, load time is too slow
     cmdline = browserify_basic_command(output_file, release=True, list_deps=list_deps)
+    cmdline.extend(params)
 
     for m in module_list:
         if m.startswith('./'):
@@ -75,8 +80,8 @@ def browserify_node_modules(module_list, output_file=None, release=False, list_d
     return browserify_run(cmdline, errmsg, output_file, release, list_deps)
 
 
-def browserify_libs(lib_dirs, output_file=None, release=False, list_deps=False, use_reactjs=False):
-    (exts, params) = get_extensions_and_params(use_reactjs=use_reactjs)
+def browserify_libs(lib_dirs, output_file=None, release=False, list_deps=False, babelify=False):
+    (exts, params) = get_extensions_and_params(babelify=babelify)
     errmsg = browserify_basic_error('browserify_libs', output_file, list_deps)
 
     cmdline = browserify_basic_command(output_file, release, list_deps)
@@ -98,8 +103,8 @@ def browserify_libs(lib_dirs, output_file=None, release=False, list_deps=False, 
     return browserify_run(cmdline, errmsg, output_file, release, list_deps)
 
 
-def browserify_file(entry_point, output_file=None, release=False, list_deps=False, use_reactjs=False, export_as=None):
-    (_, params) = get_extensions_and_params(use_reactjs=use_reactjs)
+def browserify_file(entry_point, output_file=None, release=False, list_deps=False, babelify=False, export_as=None):
+    (_, params) = get_extensions_and_params(babelify=babelify)
     errmsg = browserify_basic_error('browserify_file', output_file, list_deps)
 
     cmdline = browserify_basic_command(output_file, release, list_deps)
@@ -124,25 +129,25 @@ def browserify_file(entry_point, output_file=None, release=False, list_deps=Fals
     return browserify_run(cmdline, errmsg, output_file, release, list_deps)
 
 
-def browserify_deps_node_modules(module_list):
-    return browserify_node_modules(module_list, list_deps=True)
+def browserify_deps_node_modules(module_list, babelify=False):
+    return browserify_node_modules(module_list, list_deps=True, babelify=babelify)
 
 
-def browserify_compile_node_modules(module_list, output_file, release=False):
-    browserify_node_modules(module_list, output_file, release=release)
+def browserify_compile_node_modules(module_list, output_file, release=False, babelify=False):
+    browserify_node_modules(module_list, output_file, release=release, babelify=babelify)
 
 
-def browserify_deps_libs(lib_dirs, use_reactjs=False):
-    return browserify_libs(lib_dirs, list_deps=True, use_reactjs=use_reactjs)
+def browserify_deps_libs(lib_dirs, babelify=False):
+    return browserify_libs(lib_dirs, list_deps=True, babelify=babelify)
 
 
-def browserify_compile_libs(lib_dirs, output_file, release=False, use_reactjs=False):
-    browserify_libs(lib_dirs, output_file, release=release, use_reactjs=use_reactjs)
+def browserify_compile_libs(lib_dirs, output_file, release=False, babelify=False):
+    browserify_libs(lib_dirs, output_file, release=release, babelify=babelify)
 
 
-def browserify_deps_file(entry_point, use_reactjs=False, export_as=None):
-    return browserify_file(entry_point, list_deps=True, use_reactjs=use_reactjs, export_as=export_as)
+def browserify_deps_file(entry_point, babelify=False, export_as=None):
+    return browserify_file(entry_point, list_deps=True, babelify=babelify, export_as=export_as)
 
 
-def browserify_compile_file(entry_point, output_file, release=False, use_reactjs=False, export_as=None):
-    browserify_file(entry_point, output_file, release=release, use_reactjs=use_reactjs, export_as=export_as)
+def browserify_compile_file(entry_point, output_file, release=False, babelify=False, export_as=None):
+    browserify_file(entry_point, output_file, release=release, babelify=babelify, export_as=export_as)
