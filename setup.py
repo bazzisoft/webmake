@@ -5,7 +5,7 @@ https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
 # Always prefer setuptools over distutils
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
 from setuptools.command.install import install as setuptools_install
 from setuptools.command.develop import develop as setuptools_develop
 # To use a consistent encoding
@@ -14,6 +14,11 @@ from os import path
 import os
 import sys
 import subprocess
+
+try:
+    from wheel.bdist_wheel import bdist_wheel
+except ImportError:
+    from setuptools.command.install import install as bdist_wheel
 
 
 here = path.abspath(path.dirname(__file__))
@@ -48,7 +53,7 @@ if not program_is_installed('Detecting nodejs...', 'node -v') or not program_is_
 def _post_install(dir):
     oldwd = os.getcwd()
     os.chdir(dir)
-    os.system('npm install --no-bin-links --color false --unicode false')
+    os.system('npm install --color false --unicode false')
     os.chdir(oldwd)
 
 
@@ -65,13 +70,21 @@ class CustomDevelop(setuptools_develop):
         self.execute(_post_install, (os.path.join(self.dist.location, 'webmake'),),
                      msg='Installing NPM dependencies')
 
+                     
+class CustomWheel(bdist_wheel):
+    def run(self):
+        # Disable wheel distributions as they break the npm installation.
+        # NPM does not support being installed somewhere and then moved very well...
+        raise RuntimeError('Wheel distributions are not supported for webmake.')
+                                         
 
 # PIP setup function
 setup(
     # Custom install command classes
     cmdclass={
         'install': CustomInstall,
-        'develop': CustomDevelop
+        'develop': CustomDevelop,
+        'bdist_wheel': CustomWheel,
     },
 
     # Project name,
@@ -80,7 +93,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='2.0.0',
+    version='2.0.2',
 
     description=short_description,
     long_description=long_description,

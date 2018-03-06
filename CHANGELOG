@@ -1,4 +1,11 @@
 
+2.0.2
+-----
+- Bugfix: Fixed crashing npm install on linux due to --no-bin-links
+- Bugfix: Prevent bdist_wheel from running automatically by pip as 
+  npm doesn't support moving its installation around.
+
+
 2.0.0
 -----
 - **NOTE:** Breaks backwards compatibility!
