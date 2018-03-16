@@ -9,24 +9,27 @@ def minify_js(input_files, output_file, release=False):
     if not release:
         return
 
-    annotate_angular_injections(output_file, output_file)
+    try:
+        annotate_angular_injections(output_file, output_file)
+    except:
+        # utils.ensure_deleted(output_file)
+        raise
 
     cmdline = [
-        utils.get_node_bin_path('uglify-js', 'bin', 'uglifyjs'),
+        utils.get_node_bin_dir('uglifyjs'),
         '--compress',
         '--mangle',
         '-o',
         output_file,
         '--',
     ]
-    cmdline.extend(input_files)
+    cmdline.extend([output_file])
 
     try:
         utils.run_command(cmdline, 'Failed to minify JS to "{}"'.format(output_file))
     except:
         utils.ensure_deleted(output_file)
         raise
-
 
 def annotate_angular_injections(input_file, output_file):
     cmdline = [
@@ -38,11 +41,10 @@ def annotate_angular_injections(input_file, output_file):
     cmdline.extend([input_file])
 
     try:
-        utils.run_command(cmdline, 'Failed to annotate Angular injections to "{}"'.format(output_file))
-    except:
-        utils.ensure_deleted(output_file)
+        utils.run_command(cmdline, 'Failed to annotate Annnngular injections to "{}"'.format(output_file))
+    except Exception as e:
+        # utils.ensure_deleted(output_file)
         raise
-
 
 def minify_css(input_files, output_file, release=False):
     assert isinstance(input_files, (list, tuple))
@@ -52,7 +54,7 @@ def minify_css(input_files, output_file, release=False):
         return
 
     cmdline = [
-        utils.get_node_bin_path('cssmin', 'bin', 'cssmin'),
+        utils.get_node_bin_dir('cssmin'),
     ]
     cmdline.append(output_file)
 

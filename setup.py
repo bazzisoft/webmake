@@ -48,7 +48,7 @@ if not program_is_installed('Detecting nodejs...', 'node -v') or not program_is_
 def _post_install(dir):
     oldwd = os.getcwd()
     os.chdir(dir)
-    os.system('npm install --no-bin-links --color false --unicode false')
+    os.system('npm install --color false --unicode false')
     os.chdir(oldwd)
 
 

@@ -5,7 +5,7 @@ def bless_css(input_file, output_file, release=False):
     assert isinstance(input_file, str)
 
     cmdline = [
-        utils.get_node_bin_path('bless', 'bin', 'blessc'),
+        utils.get_node_bin_dir('blessc'),
         '--no-imports',
     ]
     cmdline.append(input_file)

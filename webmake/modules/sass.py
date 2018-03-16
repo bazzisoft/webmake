@@ -33,7 +33,7 @@ def sass_compile(input_file, output_file, release=False):
     source_map = '--source-comments --source-map-embed --source-map-contents --source-map {}'.format(map_file) if not release else ''
 
     cmdline = [
-        utils.get_node_bin_path('node-sass', 'bin', 'node-sass'),
+        utils.get_node_bin_dir('node-sass'),
         '--output-style',
         output_style,
         source_map,
