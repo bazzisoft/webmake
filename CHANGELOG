@@ -1,4 +1,11 @@
 
+2.0.3
+-----
+- Bugfix: When concatenating files in debug mode, write the paths below
+  each file contents instead of above to prevent mangling any source
+  map in the first file. 
+
+
 2.0.2
 -----
 - Bugfix: Fixed crashing npm install on linux due to --no-bin-links

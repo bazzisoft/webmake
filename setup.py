@@ -70,13 +70,13 @@ class CustomDevelop(setuptools_develop):
         self.execute(_post_install, (os.path.join(self.dist.location, 'webmake'),),
                      msg='Installing NPM dependencies')
 
-                     
+
 class CustomWheel(bdist_wheel):
     def run(self):
         # Disable wheel distributions as they break the npm installation.
         # NPM does not support being installed somewhere and then moved very well...
         raise RuntimeError('Wheel distributions are not supported for webmake.')
-                                         
+
 
 # PIP setup function
 setup(
@@ -93,7 +93,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='2.0.2',
+    version='2.0.3',
 
     description=short_description,
     long_description=long_description,
