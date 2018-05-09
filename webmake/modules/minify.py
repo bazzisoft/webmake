@@ -1,3 +1,4 @@
+import os
 from . import utils, concat
 
 
@@ -7,6 +8,9 @@ def minify_js(input_files, output_file, release=False):
     if not release:
         concat.concatenate_input_files(input_files, output_file, release=release)
         return
+
+    if output_file:
+        utils.ensure_path_exists(os.path.dirname(output_file))
 
     cmdline = [
         utils.get_node_bin_path('uglify-es', 'bin', 'uglifyjs'),

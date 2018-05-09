@@ -1,4 +1,9 @@
 
+2.0.4
+-----
+- Bugfix: Concatenate & minify plugins create destination dirs as needed.
+
+
 2.0.3
 -----
 - Bugfix: When concatenating files in debug mode, write the paths below
