@@ -58,7 +58,10 @@ def dependencies_are_up_to_date(target):
         return False
 
     for file in deps:
-        if os.path.isfile(file) and os.path.getmtime(file) >= last_compiled_timestamp:
+        try:
+            if os.path.getmtime(file) >= last_compiled_timestamp:
+                return False
+        except Exception:
             return False
 
     return True

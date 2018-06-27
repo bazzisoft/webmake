@@ -1,3 +1,11 @@
+2.0.6
+-----
+- Bugfix: Copyfiles module now checks directory modification times for changes as well 
+  (i.e. handle added files correctly.) 
+- Bugfix: Browserify Node Modules command now correctly detects dependencies of 
+  libs inside node_modules.
+
+
 2.0.5
 -----
 - Bugfix: Updated NPM dependencies for babel.

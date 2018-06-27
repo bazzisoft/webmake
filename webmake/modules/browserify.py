@@ -54,7 +54,7 @@ def browserify_run(cmdline, errmsg, output_file, release, list_deps):
 
         output = utils.run_command(cmdline, errmsg, env=env)
         if list_deps:
-            return [os.path.abspath(p) for p in output.splitlines()]
+            return [os.path.abspath(p) if os.path.exists(p) else p for p in output.splitlines()]
         elif release:
             minify.minify_js([output_file], output_file, release=release)
     except:
@@ -77,7 +77,15 @@ def browserify_node_modules(module_list, output_file=None, release=False, list_d
         else:
             cmdline.extend(['-r', m])
 
-    return browserify_run(cmdline, errmsg, output_file, release, list_deps)
+    result = browserify_run(cmdline, errmsg, output_file, release, list_deps)
+
+    if list_deps:
+        def fix_node_modules_path(path):
+            newpath = os.path.abspath(os.path.join('node_modules', path))
+            return newpath if not os.path.exists(path) and os.path.exists(newpath) else path
+        result = [fix_node_modules_path(p) for p in result]
+
+    return result
 
 
 def browserify_libs(lib_dirs, output_file=None, release=False, list_deps=False, babelify=False):
