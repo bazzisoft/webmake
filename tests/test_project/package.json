@@ -3,8 +3,9 @@
   "dependencies": {
     "bootstrap": "3.x",
     "fastclick": "1.x",
-    "jquery": "1.x",
-    "react": "0.13.x",
+    "jquery": "3.x",
+    "react": "16.x",
+    "react-dom": "16.x",
     "underscore": "1.x"
   }
 }

@@ -13,8 +13,8 @@ A simple pythonic build system for Web and Cordova projects (JS, Less, Sass...)
 - Build hook for use with Cordova.
 - Currently supports:
     - Browserify (vendor libs, user libs, project-specific sources)
-    - React.js JSX compilation
-    - LESS compilation
+    - Browserify plugins: ES2015, React JSX
+    - Less compilation
     - Sass compilation
     - Minification
     - Copy assets (images, fonts, etc)

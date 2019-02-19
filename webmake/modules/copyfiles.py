@@ -4,11 +4,15 @@ from fnmatch import fnmatch
 from . import utils
 
 
-def list_files(src_dir, filespec, recursive=False):
+def list_files(src_dir, filespec, recursive=False, include_dirs=True):
     inputs = []
 
     for dir, _, files in os.walk(src_dir):
-        inputs.extend(os.path.join(dir, f) for f in files if fnmatch(f, filespec))
+        if include_dirs:
+            inputs.append(dir)
+
+        inputs.extend(os.path.join(dir, f) for f in files if match_file(f))
+
         if not recursive:
             break
 
@@ -25,7 +29,7 @@ def copy_files(src_dir, dst_dir, filespec, recursive=False, release=None):
         except OSError as e:
             raise utils.StaticCompilerError('Failed to create destination dir "{}"'.format(dst_dir), error=str(e))
 
-    input_files = list_files(src_dir, filespec, recursive)
+    input_files = list_files(src_dir, filespec, recursive, include_dirs=False)
     output_files = [os.path.join(dst_dir, os.path.relpath(p, src_dir)) for p in input_files]
 
     for input, output in zip(input_files, output_files):

@@ -818,15 +818,10 @@
     <script type="text/javascript" src="js/vendor.js"></script>
     <script type="text/javascript" src="js/jslib.js"></script>
     <script type="text/javascript" src="js/website.js"></script>
-    <script type="text/javascript">
-      var React = require('react');
-    </script>
     <script type="text/javascript" src="js/reactjsx.js"></script>
     <script type="text/javascript">
-      React.render(
-          React.createElement(Component, {}),
-          document.getElementById('reactjs-component')
-      );
+        var react = require('reactjsx');
+        react.renderReact('reactjs-component');
     </script>
   </body>
 </html>

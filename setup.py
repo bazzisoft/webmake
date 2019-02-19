@@ -5,7 +5,7 @@ https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
 # Always prefer setuptools over distutils
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
 from setuptools.command.install import install as setuptools_install
 from setuptools.command.develop import develop as setuptools_develop
 # To use a consistent encoding
@@ -14,6 +14,11 @@ from os import path
 import os
 import sys
 import subprocess
+
+try:
+    from wheel.bdist_wheel import bdist_wheel
+except ImportError:
+    from setuptools.command.install import install as bdist_wheel
 
 
 here = path.abspath(path.dirname(__file__))
@@ -25,18 +30,18 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     short_description = contents.splitlines()[2]
     long_description = '\n'.join(contents.splitlines()[2:]).split('----------')[0]
 
-    
+
 # Ensure required packages are installed
 def program_is_installed(msg, prog):
-    try:        
+    try:
         sys.stdout.write(msg)
         sys.stdout.flush()
         subprocess.check_call(prog, shell=True)
     except:
         return False
     return True
-    
-   
+
+
 if not program_is_installed('Detecting nodejs...', 'node -v') or not program_is_installed('Detecting npm...', 'npm -v'):
     sys.stderr.write('\n' + '-' * 79)
     sys.stderr.write('\nERROR: webmake requires `node` and `npm` to be available prior to installation.')
@@ -66,12 +71,20 @@ class CustomDevelop(setuptools_develop):
                      msg='Installing NPM dependencies')
 
 
+class CustomWheel(bdist_wheel):
+    def run(self):
+        # Disable wheel distributions as they break the npm installation.
+        # NPM does not support being installed somewhere and then moved very well...
+        raise RuntimeError('Wheel distributions are not supported for webmake.')
+
+
 # PIP setup function
 setup(
     # Custom install command classes
     cmdclass={
         'install': CustomInstall,
-        'develop': CustomDevelop
+        'develop': CustomDevelop,
+        'bdist_wheel': CustomWheel,
     },
 
     # Project name,
@@ -80,7 +93,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.15',
+    version='2.0.6',
 
     description=short_description,
     long_description=long_description,
@@ -101,7 +114,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
@@ -115,8 +128,6 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],

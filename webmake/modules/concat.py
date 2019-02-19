@@ -19,17 +19,25 @@ def concatenate_input_files(input_files, output_file, release=False):
     for f in input_files:
         assert f != output_file, 'Concatenate input file is same as output.'
 
+    if output_file:
+        utils.ensure_path_exists(os.path.dirname(output_file))
+
     try:
         utils.logv('>>> concat {} > {}'.format(' '.join(input_files), output_file))
         with open(output_file, 'w') as output:
             for input_file in input_files:
-                if not release:
-                    output.write('\n\n\n'
-                                 '/*\n'
-                                 ' * {} \n'
-                                 ' */\n\n'.format(_trimpath(input_file)))
                 with open(input_file, 'r') as input:
                     output.write(input.read())
+
+                if not release:
+                    path = _trimpath(input_file)
+                    output.write('\n\n'
+                                 '/*\n'
+                                 ' * {caret}\n'
+                                 ' * {path} \n'
+                                 ' * {caret}\n'
+                                 ' */\n\n\n'.format(path=path, caret='^' * len(path)))
+
     except IOError as e:
         utils.ensure_deleted(output_file)
         raise utils.StaticCompilerError('Failed to concatenate to {}'.format(output_file), error=str(e))

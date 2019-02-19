@@ -1,14 +1,17 @@
 {
   "private": true,
   "dependencies": {
-    "browserify": "9.x",
-    "cssmin": "0.x",
-    "less": "2.x",
-    "node-sass": "4.11.0",
-    "react-tools": "0.x",
-    "reactify": "1.x",
-    "uglify-js": "2.x",
-    "bless": "3.x",
-    "ng-annotate": "1.x"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^8.0.0",
+    "bless": "^3.0.3",
+    "browserify": "^9.0.8",
+    "cssmin": "^0.4.3",
+    "less": "^2.7.3",
+    "ng-annotate": "1.x",
+    "node-sass": "^3.13.1",
+    "uglify-es": "^3.3.9"
   }
 }
