@@ -1,5 +1,8 @@
 import os
+import six
 from . import utils, concat
+
+FILE_HANDLE_KWARGS = {} if six.PY2 else dict(encoding='utf-8')
 
 
 def minify_js(input_files, output_file, release=False, annotate_angular=False):
@@ -70,7 +73,7 @@ def minify_css(input_files, output_file, release=False):
         raise
 
     try:
-        with open(output_file, 'w') as f:
+        with open(output_file, 'w', **FILE_HANDLE_KWARGS) as f:
             f.write(output)
     except IOError as e:
         utils.ensure_deleted(output_file)

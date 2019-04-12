@@ -1,14 +1,15 @@
 import os
 import re
+import six
 from . import utils
 
-
+FILE_HANDLE_KWARGS = {} if six.PY2 else dict(encoding='utf-8')
 LESS_IMPORT_RE = re.compile(r"""@import\s+['"](.+?(?:\.less)?)['"]\s*;""")
 
 
 def _read_less_imports(file):
     deps = []
-    with open(file) as f:
+    with open(file, **FILE_HANDLE_KWARGS) as f:
         less = f.read()
     imports = LESS_IMPORT_RE.findall(less)
     less_dir = os.path.dirname(file)

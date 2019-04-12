@@ -1,14 +1,15 @@
 import os
 import re
+import six
 from . import utils
 
-
+FILE_HANDLE_KWARGS = {} if six.PY2 else dict(encoding='utf-8')
 SASS_IMPORT_RE = re.compile(r"""@import\s+['"](.+?(?:\.s[ca]ss)?)['"]\s*;""")
 
 
 def _read_sass_imports(file):
     deps = []
-    with open(file) as f:
+    with open(file, **FILE_HANDLE_KWARGS) as f:
         sassfile = f.read()
     imports = SASS_IMPORT_RE.findall(sassfile)
     sass_dir = os.path.dirname(file)

@@ -1,8 +1,11 @@
 import re
 import os
+import six
 import subprocess
 from subprocess import CalledProcessError
 from .. import settings
+
+FILE_HANDLE_KWARGS = {} if six.PY2 else dict(encoding='utf-8')
 
 
 def log(msg, *args, **kwargs):
@@ -182,7 +185,7 @@ def extract_line_num(output, regexp):
 
 def extract_lines_from_source(source, line_num):
     start = max(0, line_num - 5)
-    with open(source, 'r') as f:
+    with open(source, 'r', **FILE_HANDLE_KWARGS) as f:
         lines = f.readlines()[start:start + 10]
 
     ret = ['{}: {}'.format(i + start + 1, l) for (i, l) in enumerate(lines)]
