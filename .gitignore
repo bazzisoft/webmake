@@ -6,3 +6,5 @@ __pycache__
 /webmake.egg-info
 /.project
 /.pydevproject
+/tests/test_project/package-lock.json
+/webmake/package-lock.json

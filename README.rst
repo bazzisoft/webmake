@@ -60,30 +60,30 @@ Creating Your Makefile
 For webmake to do anything useful, you need to create a makefile in your project root directory. This should be called ``webmakefile.py``. This is a standard python module that exposes a ``MAKEFILE`` list telling webmake what to build. Here is a basic template::
 
     # webmakefile.py
-    
+
     from webmake import api
-    
+
     #
     # Arbitrary python helper functions/variables can go here
     #
-    
+
     MAKEFILE = [
         # webmake API commands go here, eg:
         api.copy_files('www-dev', 'www', 'index.html'),
     ]
 
-    
+
 Command-line Invocation
 -----------------------
 
 Build in debug mode, with verbose output::
 
     webmake -v
-    
+
 Build in debug mode, and actively watch for changes::
 
     webmake -vw
-    
+
 Force a rebuild of everything in release mode (minify, no source maps)::
 
     webmake -fr
@@ -143,7 +143,7 @@ Minify standalone JS. Concatenates in debug mode, minifies in release mode::
 Concatenate files with no further processing::
 
     api.concatenate(input_files=['www-dev/js/standalone.js'] * 2, output_file='www/js/standalone-x2.js')
-    
+
 Split final CSS into several files to overcome IE's 4096 selector limit (IE9 and before)::
 
     api.split_css_for_ie_selector_limit(input_file='www/css/styles.css', output_file='www/css/styles-blessed.css')
@@ -207,18 +207,10 @@ PyPI Releases
 
         python setup.py sdist
 
-5. If first release, register on test site::
+5. Build & submit new release on test site::
 
-        python setup.py register -r pypitest
+        twine upload --repository-url https://test.pypi.org/legacy/ dist/webmake-x.y.z.tar.gz
 
-6. Build & submit new release::
+6. Build & submit new release on live PyPI::
 
-        python setup.py sdist upload -r pypitest
-
-7. If first release, register on live site::
-
-        python setup.py register -r pypi
-
-8. Build & submit new release::
-
-        python setup.py sdist upload -r pypi
+        twine upload dist/webmake-x.y.z.tar.gz
