@@ -14,7 +14,8 @@ def _read_sass_imports(file):
     sass_dir = os.path.dirname(file)
 
     for imp in imports:
-        dep = utils.resolve_possible_paths(imp, sass_dir, ['.scss', '.sass'], leading_underscore=True)
+        dep = utils.resolve_possible_paths(imp, sass_dir, ['.scss', '.sass', '.css'],
+                                           leading_underscore=True)
         if dep:
             deps.append(dep)
         else:

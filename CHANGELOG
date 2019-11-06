@@ -1,3 +1,9 @@
+3.0.0
+-----
+- Drop support for Python 2
+- Bugfix: SASS compiler now supports importing CSS files.
+
+
 2.1.0
 -----
 - Updated test environment venv to Python 3.7
