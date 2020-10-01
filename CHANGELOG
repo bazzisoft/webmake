@@ -9,6 +9,11 @@
 - Bugfix: SASS compiler now supports importing CSS files.
 
 
+2.2.0
+-----
+- Added wheel support
+
+
 2.1.0
 -----
 - Updated test environment venv to Python 3.7
