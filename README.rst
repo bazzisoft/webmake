@@ -2,7 +2,7 @@ Webmake
 =======
 A simple pythonic build system for Web and Cordova projects (JS, Less, Sass...)
 
-- Python alternative to ``grunt`` or ``gulp``.
+- Python alternative to ``webpack``, ``grunt`` or ``gulp``.
 - Supports Python 2.7 or 3.2+.
 - Builds based on a ``webmakefile.py`` script in your project root.
 - Automatically detects dependencies and builds only what's changed.
@@ -203,14 +203,15 @@ PyPI Releases
 1. Update CHANGELOG.
 2. Update version number in ``setup.py``.
 3. Start Python3 virtualenv from ``tests/test_project/venv``.
-4. Create a package to test with::
+4. Create packages to test with. Ensure both source and wheel installations work::
 
         python setup.py sdist
+        python setup.py bdist_wheel
 
-5. Build & submit new release on test site::
+5. Build & submit new release on test site (source distribution only)::
 
         twine upload --repository-url https://test.pypi.org/legacy/ dist/webmake-x.y.z.tar.gz
 
-6. Build & submit new release on live PyPI::
+6. Build & submit new release on live PyPI (source distribution only)::
 
         twine upload dist/webmake-x.y.z.tar.gz
