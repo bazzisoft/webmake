@@ -1,15 +1,14 @@
 import os
 import re
-import six
 from . import utils
 
-FILE_HANDLE_KWARGS = {} if six.PY2 else dict(encoding='utf-8')
+
 SASS_IMPORT_RE = re.compile(r"""@import\s+['"](.+?(?:\.s[ca]ss)?)['"]\s*;""")
 
 
 def _read_sass_imports(file):
     deps = []
-    with open(file, **FILE_HANDLE_KWARGS) as f:
+    with open(file) as f:
         sassfile = f.read()
     imports = SASS_IMPORT_RE.findall(sassfile)
     sass_dir = os.path.dirname(file)
@@ -35,7 +34,7 @@ def sass_compile(input_file, output_file, release=False):
     source_map = '--source-comments --source-map-embed --source-map-contents --source-map {}'.format(map_file) if not release else ''
 
     cmdline = [
-        utils.get_node_bin_dir('node-sass'),
+        utils.get_node_bin_path('node-sass', 'bin', 'node-sass'),
         '--output-style',
         output_style,
         source_map,

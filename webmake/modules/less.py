@@ -1,15 +1,14 @@
 import os
 import re
-import six
 from . import utils
 
-FILE_HANDLE_KWARGS = {} if six.PY2 else dict(encoding='utf-8')
+
 LESS_IMPORT_RE = re.compile(r"""@import\s+['"](.+?(?:\.less)?)['"]\s*;""")
 
 
 def _read_less_imports(file):
     deps = []
-    with open(file, **FILE_HANDLE_KWARGS) as f:
+    with open(file) as f:
         less = f.read()
     imports = LESS_IMPORT_RE.findall(less)
     less_dir = os.path.dirname(file)
@@ -43,7 +42,7 @@ def less_compile(input_file, output_file, release=False):
                  if not release else '')
 
     cmdline = [
-        utils.get_node_bin_dir('lessc'),
+        utils.get_node_bin_path('less', 'bin', 'lessc'),
         '--no-color',
         minify,
         sourcemap,

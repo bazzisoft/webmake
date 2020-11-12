@@ -1,8 +1,5 @@
 import os
-import six
 from . import utils, concat
-
-FILE_HANDLE_KWARGS = {} if six.PY2 else dict(encoding='utf-8')
 
 
 def minify_js(input_files, output_file, release=False, annotate_angular=False):
@@ -24,7 +21,7 @@ def minify_js(input_files, output_file, release=False, annotate_angular=False):
         utils.ensure_path_exists(os.path.dirname(output_file))
 
     cmdline = [
-        utils.get_node_bin_dir('uglifyjs'),
+        utils.get_node_bin_path('uglify-es', 'bin', 'uglifyjs'),
         '--compress',
         '--mangle',
         '-o',
@@ -62,7 +59,7 @@ def minify_css(input_files, output_file, release=False):
         return
 
     cmdline = [
-        utils.get_node_bin_dir('cssmin'),
+        utils.get_node_bin_path('cssmin', 'bin', 'cssmin'),
     ]
     cmdline.append(output_file)
 
@@ -73,7 +70,7 @@ def minify_css(input_files, output_file, release=False):
         raise
 
     try:
-        with open(output_file, 'w', **FILE_HANDLE_KWARGS) as f:
+        with open(output_file, 'w') as f:
             f.write(output)
     except IOError as e:
         utils.ensure_deleted(output_file)

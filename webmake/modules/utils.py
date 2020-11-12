@@ -1,11 +1,8 @@
 import re
 import os
-import six
 import subprocess
 from subprocess import CalledProcessError
 from .. import settings
-
-FILE_HANDLE_KWARGS = {} if six.PY2 else dict(encoding='utf-8')
 
 
 def log(msg, *args, **kwargs):
@@ -142,12 +139,8 @@ def get_node_modules_dir(module=None):
         return moduledir
 
 
-def get_node_bin_dir(cmd=None):
-    bindir = get_node_modules_dir('.bin')
-    if cmd:
-        return os.path.join(bindir, cmd)
-    else:
-        return bindir
+def get_node_bin_path(*args):
+    return os.path.join(get_node_modules_dir(), *args)
 
 
 def no_dependencies(input):
@@ -157,7 +150,7 @@ def no_dependencies(input):
         return input
 
 
-def run_command(cmd, errmsg, env=None):
+def run_command(cmd, errmsg, env=None, with_node=True):
     if env is not None:
         newenv = os.environ.copy()
         newenv.update(env)
@@ -165,6 +158,9 @@ def run_command(cmd, errmsg, env=None):
 
     if isinstance(cmd, (list, tuple)):
         cmd = ' '.join(c for c in cmd if c != '')
+
+    if with_node:
+        cmd = 'node ' + cmd
 
     try:
         logv('>>> ' + cmd)
@@ -185,7 +181,7 @@ def extract_line_num(output, regexp):
 
 def extract_lines_from_source(source, line_num):
     start = max(0, line_num - 5)
-    with open(source, 'r', **FILE_HANDLE_KWARGS) as f:
+    with open(source, 'r') as f:
         lines = f.readlines()[start:start + 10]
 
     ret = ['{}: {}'.format(i + start + 1, l) for (i, l) in enumerate(lines)]

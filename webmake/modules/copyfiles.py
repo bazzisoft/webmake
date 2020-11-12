@@ -6,6 +6,10 @@ from . import utils
 
 def list_files(src_dir, filespec, recursive=False, include_dirs=True):
     inputs = []
+    filespecs = [filespec] if not isinstance(filespec, (list, tuple)) else filespec
+
+    def match_file(f):
+        return any(fnmatch(f, s) for s in filespecs)
 
     for dir, _, files in os.walk(src_dir):
         if include_dirs:
@@ -36,7 +40,7 @@ def copy_files(src_dir, dst_dir, filespec, recursive=False, release=None):
         utils.logv('>>> copy {} > {}'.format(input, output))
         dirname = os.path.split(output)[0]
         if not os.path.exists(dirname):
-            os.mkdir(dirname)
+            os.makedirs(dirname)
         shutil.copy2(input, output)
 
     os.utime(dst_dir, None)
