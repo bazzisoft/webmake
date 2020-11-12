@@ -51,6 +51,9 @@ MAKEFILE = [
     # Minify standalone JS. Concatenates in debug mode, minifies in release mode.
     api.minify_js(['www-dev/js/standalone.js'], 'www/js/standalone.js'),
 
+    # Minify AngularJS 1.x. Concatenates in debug mode, minifies and annotates Angular dependencies in release mode.
+    api.minify_js(['www-dev/angular-1.x/module.js'], 'www/angular-1.x/module.js', annotate_angular=True),
+
     # Concatenate standalone files with no further processing.
     api.concatenate(['www-dev/js/standalone.js'] * 2, 'www/js/standalone-x2.js'),
 
