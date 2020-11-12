@@ -11,7 +11,7 @@
     "cssmin": "^0.4.3",
     "less": "^2.7.3",
     "ng-annotate": "1.x",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "uglify-es": "^3.3.9"
   }
 }
