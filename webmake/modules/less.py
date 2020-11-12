@@ -8,7 +8,7 @@ LESS_IMPORT_RE = re.compile(r"""@import\s+['"](.+?(?:\.less)?)['"]\s*;""")
 
 def _read_less_imports(file):
     deps = []
-    with open(file) as f:
+    with open(file, encoding='utf-8') as f:
         less = f.read()
     imports = LESS_IMPORT_RE.findall(less)
     less_dir = os.path.dirname(file)
