@@ -81,9 +81,15 @@ def browserify_node_modules(module_list, output_file=None, release=False, list_d
 
     if list_deps:
         def fix_node_modules_path(path):
+            if os.path.exists(path):
+                return path
             newpath = os.path.abspath(os.path.join('node_modules', path))
-            return newpath if not os.path.exists(path) and os.path.exists(newpath) else path
+            if os.path.exists(newpath):
+                return newpath
+            return None
+
         result = [fix_node_modules_path(p) for p in result]
+        result = [p for p in result if p]
 
     return result
 

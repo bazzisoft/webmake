@@ -1,4 +1,10 @@
-3.1.0
+
+3.1.2
+-----
+- Bugfix: Browserify sometimes returns invalid dependency paths, so ignore these
+
+
+3.1.1
 -----
 - Added wheel support
 

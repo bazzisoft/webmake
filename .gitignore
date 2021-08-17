@@ -9,3 +9,4 @@ __pycache__
 /tests/test_project/package-lock.json
 /webmake/package-lock.json
 /build
+/workspace.code-workspace
