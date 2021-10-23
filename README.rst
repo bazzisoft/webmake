@@ -27,10 +27,10 @@ A simple pythonic build system for Web and Cordova projects (JS, Less, Sass...)
 Installation
 ============
 
-1. Ensure you have `node.js <https://nodejs.org/en/>`_ and ``npm`` installed.::
+1. Ensure you have build tools, `node.js <https://nodejs.org/en/>`_ and ``npm`` installed.::
 
         # Ubuntu
-        sudo apt-get install nodejs-legacy npm
+        sudo apt-get install  build-essential nodejs npm
 
 2. Install from PyPI::
 
