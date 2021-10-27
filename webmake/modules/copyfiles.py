@@ -1,5 +1,4 @@
 import os
-import re
 import shutil
 from fnmatch import fnmatch
 from . import utils

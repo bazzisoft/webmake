@@ -57,7 +57,7 @@ def copy_files(src_dir, dst_dir, filespec='*', recursive=False):
     }
 
 
-def minify_js(input_files, output_file):
+def minify_js(input_files, output_file, annotate_angular=False):
     """
     Minifies the input javascript files to the output file.
 
@@ -66,6 +66,7 @@ def minify_js(input_files, output_file):
     In debug mode this function just concatenates the files
     without minifying.
     """
+    from functools import partial
     from .modules import minify, utils
 
     if not isinstance(input_files, (list, tuple)):
@@ -73,7 +74,7 @@ def minify_js(input_files, output_file):
 
     return {
         'dependencies_fn': utils.no_dependencies,
-        'compiler_fn': minify.minify_js,
+        'compiler_fn': partial(minify.minify_js, annotate_angular=annotate_angular),
         'input': input_files,
         'output': output_file,
         'kwargs': {},

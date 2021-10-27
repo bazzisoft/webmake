@@ -43,6 +43,10 @@ POSSIBLE_BINFILES = [f for f in (
 BINFILE = POSSIBLE_BINFILES[0] if POSSIBLE_BINFILES else WEBMAKE_BIN
 
 
+class WebmakeRuntimeWarning(RuntimeWarning):
+    pass
+
+
 class WebmakeCompilerMiddleware:
     def __init__(self, get_response=None):
         self.get_response = get_response
@@ -53,7 +57,7 @@ class WebmakeCompilerMiddleware:
 
     def process_request(self, request):
         if not settings.DEBUG:
-            warnings.warn('WebmakeCompilerMiddleware should not be used in production!', RuntimeWarning)
+            warnings.warn('WebmakeCompilerMiddleware should not be used in production!', WebmakeRuntimeWarning)
 
         cmd = ' '.join([BINFILE, '-m', WEBMAKEFILE])
         env = os.environ.copy()

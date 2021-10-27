@@ -1,5 +1,8 @@
 import os
+import six
 from . import utils
+
+FILE_HANDLE_KWARGS = {} if six.PY2 else dict(encoding='utf-8')
 
 
 def _trimpath(path):
@@ -24,9 +27,9 @@ def concatenate_input_files(input_files, output_file, release=False):
 
     try:
         utils.logv('>>> concat {} > {}'.format(' '.join(input_files), output_file))
-        with open(output_file, 'w') as output:
+        with open(output_file, 'w', **FILE_HANDLE_KWARGS) as output:
             for input_file in input_files:
-                with open(input_file, 'r') as input:
+                with open(input_file, 'r', **FILE_HANDLE_KWARGS) as input:
                     output.write(input.read())
 
                 if not release:
