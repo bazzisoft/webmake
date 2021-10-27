@@ -28,7 +28,6 @@ def minify_js(input_files, output_file, release=False, annotate_angular=False):
     cmdline = [
         utils.get_node_bin_path('uglify-es', 'bin', 'uglifyjs'),
         '--compress',
-        '--mangle',
         '-o',
         output_file,
         '--',
