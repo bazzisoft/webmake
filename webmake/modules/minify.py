@@ -13,7 +13,7 @@ def minify_js(input_files, output_file, release=False):
         utils.ensure_path_exists(os.path.dirname(output_file))
 
     cmdline = [
-        utils.get_node_bin_path('uglify-es', 'bin', 'uglifyjs'),
+        utils.get_node_bin_path('uglify-js', 'bin', 'uglifyjs'),
         '--compress',
         '--mangle',
         '-o',
@@ -37,19 +37,14 @@ def minify_css(input_files, output_file, release=False):
         return
 
     cmdline = [
-        utils.get_node_bin_path('cssmin', 'bin', 'cssmin'),
+        utils.get_node_bin_path('clean-css-cli', 'bin', 'cleancss'),
+        '--output',
+        output_file,
+        output_file,
     ]
-    cmdline.append(output_file)
 
     try:
-        output = utils.run_command(cmdline, 'Failed to minify CSS to "{}"'.format(output_file))
+        utils.run_command(cmdline, 'Failed to minify CSS to "{}"'.format(output_file))
     except:
         utils.ensure_deleted(output_file)
         raise
-
-    try:
-        with open(output_file, 'w') as f:
-            f.write(output)
-    except IOError as e:
-        utils.ensure_deleted(output_file)
-        raise utils.StaticCompilerError('Failed to minify CSS to "{}"'.format(output_file), str(e))

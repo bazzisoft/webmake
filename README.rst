@@ -144,10 +144,6 @@ Concatenate files with no further processing::
 
     api.concatenate(input_files=['www-dev/js/standalone.js'] * 2, output_file='www/js/standalone-x2.js')
 
-Split final CSS into several files to overcome IE's 4096 selector limit (IE9 and before)::
-
-    api.split_css_for_ie_selector_limit(input_file='www/css/styles.css', output_file='www/css/styles-blessed.css')
-
 
 Django Integration
 ------------------

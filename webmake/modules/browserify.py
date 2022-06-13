@@ -8,10 +8,10 @@ def get_extensions_and_params(babelify=False):
 
     if babelify:
         babelify = utils.get_node_modules_dir('babelify')
-        preset_es2015 = utils.get_node_modules_dir('babel-preset-es2015')
-        preset_react = utils.get_node_modules_dir('babel-preset-react')
+        preset_env = utils.get_node_modules_dir('@babel/preset-env')
+        preset_react = utils.get_node_modules_dir('@babel/preset-react')
         extensions.extend(['.jsx'])
-        params.extend(['-t', '[', babelify, '--presets', '[', preset_es2015, preset_react, ']', ']'])
+        params.extend(['-t', '[', babelify, '--presets', '[', preset_env, preset_react, ']', ']'])
 
     return (extensions, params)
 

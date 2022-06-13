@@ -1,4 +1,14 @@
 
+4.0.0
+-----
+- Add support for Node 18
+- Update all NPM packages to their latest versions
+- Replace "cssmin" with "clean-css"
+- Replace "node-sass" with "sass"
+- Replace "uglify-es" with "uglify-js"
+- Remove support for "bless" (split CSS for IE9 support)
+
+
 3.1.2
 -----
 - Bugfix: Browserify sometimes returns invalid dependency paths, so ignore these

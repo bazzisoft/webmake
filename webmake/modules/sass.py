@@ -31,12 +31,16 @@ def sass_dependencies(input_file):
 def sass_compile(input_file, output_file, release=False):
     map_file = output_file + '.map'
     output_style = 'compressed' if release else 'expanded'
-    source_map = '--source-comments --source-map-embed --source-map-contents --source-map {}'.format(map_file) if not release else ''
+    if release:
+        source_map = '--no-source-map'
+    else:
+        source_map = '--source-map'
 
     cmdline = [
-        utils.get_node_bin_path('node-sass', 'bin', 'node-sass'),
-        '--output-style',
+        utils.get_node_bin_path('sass', 'sass'),
+        '--style',
         output_style,
+        '--quiet',
         source_map,
         input_file,
         output_file,
@@ -47,6 +51,5 @@ def sass_compile(input_file, output_file, release=False):
         utils.run_command(cmdline, 'Failed to compile SASS to "{}"'.format(output_file))
     except:
         utils.ensure_deleted(output_file)
-        raise
-    finally:
         utils.ensure_deleted(map_file)
+        raise

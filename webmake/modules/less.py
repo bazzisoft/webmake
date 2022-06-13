@@ -29,17 +29,13 @@ def less_dependencies(input_file):
 
 def less_compile(input_file, output_file, release=False):
     map_file = output_file + '.map'
-    input_abs = os.path.abspath(os.path.dirname(input_file))
-    output_abs = os.path.abspath(os.path.dirname(output_file))
     map_url = os.path.basename(map_file)
-    map_base = os.path.commonprefix([input_abs, output_abs]).replace('\\', '/')
-    map_rel = os.path.dirname(output_abs[len(map_base):]).replace('\\', '/')
-    map_root = '/'.join([os.pardir] * len(map_rel.split('/')))
 
     minify = '-x' if release else ''
-    sourcemap = ('-source-map-rootpath={rp} --source-map-basepath={bp} --source-map-url={url} --source-map={map}'
-                 .format(rp=map_root, bp=map_base, url=map_url, map=map_file)
-                 if not release else '')
+    if release:
+        sourcemap = ''
+    else:
+        sourcemap = '--source-map-url={url} --source-map={map}'.format(url=map_url, map=map_file)
 
     cmdline = [
         utils.get_node_bin_path('less', 'bin', 'lessc'),

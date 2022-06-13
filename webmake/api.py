@@ -103,25 +103,6 @@ def minify_css(input_files, output_file):
     }
 
 
-def split_css_for_ie_selector_limit(input_file, output_file):
-    """
-    Splits a large CSS file into several smaller files, each one
-    containing less than the IE 4096 selector limit.
-    """
-    from .modules import bless, utils
-
-    if not isinstance(input_file, str):
-        raise RuntimeError('CSS splitter takes only a single input file.')
-
-    return {
-        'dependencies_fn': utils.no_dependencies,
-        'compiler_fn': bless.bless_css,
-        'input': input_file,
-        'output': output_file,
-        'kwargs': {},
-    }
-
-
 def compile_less(input_file, output_file):
     """
     Compile a LESS source file. Minifies the output in release mode.
