@@ -31,6 +31,7 @@ def parse_command_line():
     parser.add_argument('-f', '--force', action='store_true', help='Force recompilation of all source files, even if not modified.')
     parser.add_argument('-m', '--makefile', default=default_webmakefile, help='Specify the webmakefile.py to use for compilation settings.')
     parser.add_argument('-w', '--watch', action='store_true', help='Watch all input files for changes, and recompile automatically.')
+    parser.add_argument('-p', '--polling-watcher', action='store_true', help='Use the polling watcher instead of inotify (increased compatibility).')
 
     args = parser.parse_args()
     error_fn = functools.partial(command_line_error, parser, args.makefile)
@@ -83,4 +84,4 @@ def main():
             sys.exit(1)
 
     if args.watch:
-        watcher.start_watching()
+        watcher.start_watching(use_polling_watcher=args.polling_watcher)

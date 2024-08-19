@@ -1,4 +1,11 @@
 
+4.1.1
+-----
+- Watch mode: Better signal handling for linux
+- Watch mode: Option to use a polling watcher instead of inotify
+- Watch mode: Debounce modification events for 300ms to prevent duplicate compilation runs
+
+
 4.0.0
 -----
 - Add support for Node 18

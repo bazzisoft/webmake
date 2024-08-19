@@ -2,7 +2,7 @@
 echo Delete and rebuild the virtual environment?
 pause
 rmdir /s /q venv
-call ..\..\..\..\environments\python3.7\virtualenv.bat venv
+call \PROGRAMS\Python\virtualenv3.bat venv
 call venv\Scripts\activate.bat
 call python -m pip install --upgrade pip
 call pip install --upgrade setuptools wheel
