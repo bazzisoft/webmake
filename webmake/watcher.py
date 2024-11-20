@@ -22,17 +22,29 @@ class WatchdogEventHandler(FileSystemEventHandler):
         self.timer = None
 
     def on_any_event(self, event):
-        if (event.is_directory or event.src_path.endswith('.depscache') or
-                event.event_type in (events.EVENT_TYPE_OPENED, events.EVENT_TYPE_CLOSED)):
+        if (
+            event.is_directory
+            or event.src_path.endswith(".depscache")
+            or event.event_type
+            in (
+                events.EVENT_TYPE_OPENED,
+                events.EVENT_TYPE_CLOSED,
+                events.EVENT_TYPE_CLOSED_NO_WRITE,
+            )
+        ):
             return
 
         if os.path.abspath(event.src_path) == os.path.abspath(settings.MAKEFILEPATH):
-            log('Detected change to makefile {}, please restart the watcher.\n'.format(settings.MAKEFILEPATH))
+            log(
+                "Detected change to makefile {}, please restart the watcher.\n".format(
+                    settings.MAKEFILEPATH
+                )
+            )
             self.signal_exit()
             return
 
-        what = 'directory' if event.is_directory else 'file'
-        log('{} {} {}'.format(event.event_type.title(), what, event.src_path))
+        what = "directory" if event.is_directory else "file"
+        log("{} {} {}".format(event.event_type.title(), what, event.src_path))
 
         if self.timer:
             self.timer.cancel()
@@ -40,14 +52,16 @@ class WatchdogEventHandler(FileSystemEventHandler):
         self.timer.start()
 
     def on_timer(self):
-        compiler.compile_if_modified(settings.MAKEFILE, settings.MAKEFILEPATH, settings.RELEASE)
-        log('')
+        compiler.compile_if_modified(
+            settings.MAKEFILE, settings.MAKEFILEPATH, settings.RELEASE
+        )
+        log("Build complete.\n")
 
 
 def start_watching(use_polling_watcher=False):
     settings.VERBOSE = True
 
-    paths = itertools.chain.from_iterable(d['dependencies'] for d in settings.MAKEFILE)
+    paths = itertools.chain.from_iterable(d["dependencies"] for d in settings.MAKEFILE)
     paths = set(os.path.abspath(os.path.dirname(p)) for p in paths)
 
     # import pprint
@@ -55,16 +69,19 @@ def start_watching(use_polling_watcher=False):
 
     # Use the polling observer instead of inotify if polling was requested
     if use_polling_watcher:
-        log('\nWatching for filesystem changes (polling watcher), Ctrl-C to exit...\n')
+        log("\nWatching for filesystem changes (polling watcher), Ctrl-C to exit...\n")
         observer = PollingObserver(timeout=3)
     else:
-        log('\nWatching for filesystem changes, Ctrl-C to exit...\n')
+        log("\nWatching for filesystem changes, Ctrl-C to exit...\n")
         observer = Observer()
 
+    shutdown = False
+
     def signal_exit(sig=None, frame=None):
-        log('Shutting down...')
+        log("Shutting down...")
         observer.stop()
-        raise KeyboardInterrupt()
+        nonlocal shutdown
+        shutdown = True
 
     for path in paths:
         observer.schedule(WatchdogEventHandler(signal_exit), path, recursive=False)
@@ -74,7 +91,7 @@ def start_watching(use_polling_watcher=False):
     signal.signal(signal.SIGTERM, signal_exit)
 
     try:
-        while True:
+        while not shutdown:
             time.sleep(1)
     except KeyboardInterrupt:
         pass
