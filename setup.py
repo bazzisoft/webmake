@@ -1,3 +1,4 @@
+# ruff: noqa
 """
 A setuptools based setup module.
 See:
@@ -44,17 +45,15 @@ def program_is_installed(msg, prog):
     return True
 
 
-if not program_is_installed(
-    "Detecting nodejs...", "node -v"
-) or not program_is_installed("Detecting npm...", "npm -v"):
+if not program_is_installed("Detecting nodejs...", "node -v") or not program_is_installed(
+    "Detecting npm...", "npm -v"
+):
     sys.stderr.write("\n" + "-" * 79)
     sys.stderr.write(
         "\nERROR: webmake requires `node` and `npm` to be available prior to installation."
     )
     sys.stderr.write("\n" + "-" * 79 + "\n\n")
-    raise Exception(
-        "webmake requires `node` and `npm` to be available prior to installation."
-    )
+    raise Exception("webmake requires `node` and `npm` to be available prior to installation.")
 
 
 # Setup post install script

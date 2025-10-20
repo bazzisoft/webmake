@@ -1,0 +1,79 @@
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "pbapis",
+    "site-packages",
+    "venv",
+    "CVS",
+    "migrations",
+    "forks",
+    "local.py",
+]
+
+line-length = 100
+indent-width = 4
+
+target-version = "py311"
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = ["E4", "E7", "E9", "F"]
+ignore = [
+#    "E741", # Ambiguous variable name
+#    "F405", # undefined-local-with-import-star-usage
+#    "F403", # undefined-local-with-import-star
+#    "E731", # Do not assign a `lambda` expression, use a `def`
+#    "E721", # Use `is` and `is not` for type comparisons, or `isinstance()` for isinstance checks
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+#fixable = ["ALL"]
+unfixable = [
+#    "F841", # unused variable. ruff keeps the call, but mostly we want to get rid of it all
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+# "**/tests/test_**" = ["F841"]
+# "**/__init__.py" = ["F401"]
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
