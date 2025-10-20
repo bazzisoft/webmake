@@ -177,7 +177,7 @@ Webmake Development
 
 Development Installs
 --------------------
-1. Create a Python 2.7 or Python 3 virtualenv.
+1. Create a Python 3 virtualenv.
 2. For a development (--editable) install (where webmake is editable in place)::
 
         pip install -e /path/to/webmake

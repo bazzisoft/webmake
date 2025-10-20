@@ -1,11 +1,10 @@
-
-
 def list_matching_files(dir, extensions=None, recursive=True):
     """
     Returns a list of all files in the specified directory,
     optionally recursively and/or with the specified extensions.
     """
     from .modules import utils
+
     return utils.list_matching_files(dir, extensions=extensions, recursive=recursive)
 
 
@@ -19,18 +18,18 @@ def concatenate(input_files, output_file):
     from .modules import utils, concat
 
     if not isinstance(input_files, (list, tuple)):
-        raise RuntimeError('Concatenate takes a list of input files.')
+        raise RuntimeError("Concatenate takes a list of input files.")
 
     return {
-        'dependencies_fn': utils.no_dependencies,
-        'compiler_fn': concat.concatenate_input_files,
-        'input': input_files,
-        'output': output_file,
-        'kwargs': {},
+        "dependencies_fn": utils.no_dependencies,
+        "compiler_fn": concat.concatenate_input_files,
+        "input": input_files,
+        "output": output_file,
+        "kwargs": {},
     }
 
 
-def copy_files(src_dir, dst_dir, filespec='*', recursive=False):
+def copy_files(src_dir, dst_dir, filespec="*", recursive=False):
     """
     Copies any files matching filespec from src_dir into dst_dir.
 
@@ -40,19 +39,19 @@ def copy_files(src_dir, dst_dir, filespec='*', recursive=False):
     from .modules import copyfiles
 
     if src_dir == dst_dir:
-        raise RuntimeError('copy_files() src and dst directories must be different.')
+        raise RuntimeError("copy_files() src and dst directories must be different.")
 
     if not os.path.isdir(src_dir):
         raise RuntimeError('copy_files() src directory "{}" does not exist.'.format(src_dir))
 
     return {
-        'dependencies_fn': copyfiles.list_files,
-        'compiler_fn': copyfiles.copy_files,
-        'input': src_dir,
-        'output': dst_dir,
-        'kwargs': {
-            'filespec': filespec,
-            'recursive': recursive,
+        "dependencies_fn": copyfiles.list_files,
+        "compiler_fn": copyfiles.copy_files,
+        "input": src_dir,
+        "output": dst_dir,
+        "kwargs": {
+            "filespec": filespec,
+            "recursive": recursive,
         },
     }
 
@@ -69,14 +68,14 @@ def minify_js(input_files, output_file):
     from .modules import minify, utils
 
     if not isinstance(input_files, (list, tuple)):
-        raise RuntimeError('JS minifier takes a list of input files.')
+        raise RuntimeError("JS minifier takes a list of input files.")
 
     return {
-        'dependencies_fn': utils.no_dependencies,
-        'compiler_fn': minify.minify_js,
-        'input': input_files,
-        'output': output_file,
-        'kwargs': {},
+        "dependencies_fn": utils.no_dependencies,
+        "compiler_fn": minify.minify_js,
+        "input": input_files,
+        "output": output_file,
+        "kwargs": {},
     }
 
 
@@ -92,14 +91,14 @@ def minify_css(input_files, output_file):
     from .modules import minify, utils
 
     if not isinstance(input_files, (list, tuple)):
-        raise RuntimeError('CSS minifier takes a list of input files.')
+        raise RuntimeError("CSS minifier takes a list of input files.")
 
     return {
-        'dependencies_fn': utils.no_dependencies,
-        'compiler_fn': minify.minify_css,
-        'input': input_files,
-        'output': output_file,
-        'kwargs': {},
+        "dependencies_fn": utils.no_dependencies,
+        "compiler_fn": minify.minify_css,
+        "input": input_files,
+        "output": output_file,
+        "kwargs": {},
     }
 
 
@@ -110,14 +109,14 @@ def compile_less(input_file, output_file):
     from .modules import less
 
     if not isinstance(input_file, str):
-        raise RuntimeError('LESS compiler takes only a single input file.')
+        raise RuntimeError("LESS compiler takes only a single input file.")
 
     return {
-        'dependencies_fn': less.less_dependencies,
-        'compiler_fn': less.less_compile,
-        'input': input_file,
-        'output': output_file,
-        'kwargs': {},
+        "dependencies_fn": less.less_dependencies,
+        "compiler_fn": less.less_compile,
+        "input": input_file,
+        "output": output_file,
+        "kwargs": {},
     }
 
 
@@ -128,14 +127,14 @@ def compile_sass(input_file, output_file):
     from .modules import sass
 
     if not isinstance(input_file, str):
-        raise RuntimeError('SASS compiler takes only a single input file.')
+        raise RuntimeError("SASS compiler takes only a single input file.")
 
     return {
-        'dependencies_fn': sass.sass_dependencies,
-        'compiler_fn': sass.sass_compile,
-        'input': input_file,
-        'output': output_file,
-        'kwargs': {},
+        "dependencies_fn": sass.sass_dependencies,
+        "compiler_fn": sass.sass_compile,
+        "input": input_file,
+        "output": output_file,
+        "kwargs": {},
     }
 
 
@@ -151,15 +150,17 @@ def browserify_node_modules(module_name_list, output_file, babelify=False):
     from .modules import browserify
 
     if not isinstance(module_name_list, (list, tuple)):
-        raise RuntimeError('Browserify Node Modules compiler takes a list of node module names as input.')
+        raise RuntimeError(
+            "Browserify Node Modules compiler takes a list of node module names as input."
+        )
 
     return {
-        'dependencies_fn': browserify.browserify_deps_node_modules,
-        'compiler_fn': browserify.browserify_compile_node_modules,
-        'input': module_name_list,
-        'output': output_file,
-        'kwargs': {
-            'babelify': babelify,
+        "dependencies_fn": browserify.browserify_deps_node_modules,
+        "compiler_fn": browserify.browserify_compile_node_modules,
+        "input": module_name_list,
+        "output": output_file,
+        "kwargs": {
+            "babelify": babelify,
         },
     }
 
@@ -180,15 +181,15 @@ def browserify_libs(lib_dirs, output_file, babelify=False):
     from .modules import browserify
 
     if not isinstance(lib_dirs, (list, tuple)):
-        raise RuntimeError('Browserify Libs compiler takes a list of library directories as input.')
+        raise RuntimeError("Browserify Libs compiler takes a list of library directories as input.")
 
     return {
-        'dependencies_fn': browserify.browserify_deps_libs,
-        'compiler_fn': browserify.browserify_compile_libs,
-        'input': lib_dirs,
-        'output': output_file,
-        'kwargs': {
-            'babelify': babelify,
+        "dependencies_fn": browserify.browserify_deps_libs,
+        "compiler_fn": browserify.browserify_compile_libs,
+        "input": lib_dirs,
+        "output": output_file,
+        "kwargs": {
+            "babelify": babelify,
         },
     }
 
@@ -207,16 +208,16 @@ def browserify_file(entry_point, output_file, babelify=False, export_as=None):
     from .modules import browserify
 
     if not isinstance(entry_point, str):
-        raise RuntimeError('Browserify File compiler takes a single entry point as input.')
+        raise RuntimeError("Browserify File compiler takes a single entry point as input.")
 
     return {
-        'dependencies_fn': browserify.browserify_deps_file,
-        'compiler_fn': browserify.browserify_compile_file,
-        'input': entry_point,
-        'output': output_file,
-        'kwargs': {
-            'babelify': babelify,
-            'export_as': export_as,
+        "dependencies_fn": browserify.browserify_deps_file,
+        "compiler_fn": browserify.browserify_compile_file,
+        "input": entry_point,
+        "output": output_file,
+        "kwargs": {
+            "babelify": babelify,
+            "export_as": export_as,
         },
     }
 
@@ -231,9 +232,9 @@ def custom_function(func, input_files, output_file):
     from .modules import utils
 
     return {
-        'dependencies_fn': utils.no_dependencies,
-        'compiler_fn': func,
-        'input': input_files,
-        'output': output_file,
-        'kwargs': {},
+        "dependencies_fn": utils.no_dependencies,
+        "compiler_fn": func,
+        "input": input_files,
+        "output": output_file,
+        "kwargs": {},
     }

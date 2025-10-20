@@ -13,12 +13,12 @@ def minify_js(input_files, output_file, release=False):
         utils.ensure_path_exists(os.path.dirname(output_file))
 
     cmdline = [
-        utils.get_node_bin_path('uglify-js', 'bin', 'uglifyjs'),
-        '--compress',
-        '--mangle',
-        '-o',
+        utils.get_node_bin_path("uglify-js", "bin", "uglifyjs"),
+        "--compress",
+        "--mangle",
+        "-o",
         output_file,
-        '--',
+        "--",
     ]
     cmdline.extend(input_files)
 
@@ -37,8 +37,8 @@ def minify_css(input_files, output_file, release=False):
         return
 
     cmdline = [
-        utils.get_node_bin_path('clean-css-cli', 'bin', 'cleancss'),
-        '--output',
+        utils.get_node_bin_path("clean-css-cli", "bin", "cleancss"),
+        "--output",
         output_file,
         output_file,
     ]

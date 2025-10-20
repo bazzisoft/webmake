@@ -1,4 +1,3 @@
-
 # Whether to show verbose log messages
 VERBOSE = False
 

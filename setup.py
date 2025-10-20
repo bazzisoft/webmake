@@ -28,7 +28,7 @@ here = path.abspath(path.dirname(__file__))
 
 
 # Get the long description from the README file
-with open(path.join(here, "README.rst"), encoding="utf-8") as f:
+with open(path.join(here, "README.md"), encoding="utf-8") as f:
     contents = f.read()
     short_description = contents.splitlines()[2]
     long_description = "\n".join(contents.splitlines()[2:]).split("----------")[0]

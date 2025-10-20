@@ -22,6 +22,7 @@ release versions of all target files::
             with lcd(PROJECT_PATH):
                 local('webmk -fr')
 """
+
 import re
 import os
 import sys
@@ -30,15 +31,23 @@ import warnings
 from django.conf import settings  # pylint: disable=import-error
 
 
-SETTINGS_ROOT = os.path.dirname(os.path.abspath(os.path.join(sys.modules[settings.SETTINGS_MODULE].__file__)))
-PROJECT_ROOT = os.path.abspath(os.path.join(re.sub(r'settings[/\\]?$', '', SETTINGS_ROOT), os.pardir))
-WEBMAKE_BIN = 'webmk'
-WEBMAKEFILE = os.path.join(PROJECT_ROOT, 'webmakefile.py')
+SETTINGS_ROOT = os.path.dirname(
+    os.path.abspath(os.path.join(sys.modules[settings.SETTINGS_MODULE].__file__))
+)
+PROJECT_ROOT = os.path.abspath(
+    os.path.join(re.sub(r"settings[/\\]?$", "", SETTINGS_ROOT), os.pardir)
+)
+WEBMAKE_BIN = "webmk"
+WEBMAKEFILE = os.path.join(PROJECT_ROOT, "webmakefile.py")
 
-POSSIBLE_BINFILES = [f for f in (
-                         os.path.join(os.path.dirname(sys.executable), WEBMAKE_BIN),
-                         os.path.join(os.path.dirname(sys.executable), WEBMAKE_BIN + '.exe'),
-                     ) if os.path.isfile(f)]
+POSSIBLE_BINFILES = [
+    f
+    for f in (
+        os.path.join(os.path.dirname(sys.executable), WEBMAKE_BIN),
+        os.path.join(os.path.dirname(sys.executable), WEBMAKE_BIN + ".exe"),
+    )
+    if os.path.isfile(f)
+]
 
 BINFILE = POSSIBLE_BINFILES[0] if POSSIBLE_BINFILES else WEBMAKE_BIN
 
@@ -53,16 +62,18 @@ class WebmakeCompilerMiddleware:
 
     def process_request(self, request):
         if not settings.DEBUG:
-            warnings.warn('WebmakeCompilerMiddleware should not be used in production!', RuntimeWarning)
+            warnings.warn(
+                "WebmakeCompilerMiddleware should not be used in production!", RuntimeWarning
+            )
 
-        cmd = ' '.join([BINFILE, '-m', WEBMAKEFILE])
+        cmd = " ".join([BINFILE, "-m", WEBMAKEFILE])
         env = os.environ.copy()
-        env.pop('PYTHONPATH', None)
+        env.pop("PYTHONPATH", None)
 
         try:
             subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True, env=env)
         except subprocess.CalledProcessError as e:
-            output = e.output.decode('utf-8') if hasattr(e.output, 'decode') else str(e.output)
-            raise RuntimeError('WebmakeCompilerMiddleware:\n' + output)
+            output = e.output.decode("utf-8") if hasattr(e.output, "decode") else str(e.output)
+            raise RuntimeError("WebmakeCompilerMiddleware:\n" + output)
 
         return None

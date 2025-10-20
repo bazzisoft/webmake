@@ -4,12 +4,14 @@ from .modules.utils import log, logv, StaticCompilerError
 
 
 def load_dependencies_for_target(target, makefilepath):
-    logv('\nFinding dependencies for: {}'.format(target['output']))
+    logv("\nFinding dependencies for: {}".format(target["output"]))
     try:
-        dependency_fn = target['dependencies_fn']
-        target['dependencies'] = [makefilepath] + dependency_fn(target['input'], **target['kwargs'])
+        dependency_fn = target["dependencies_fn"]
+        target["dependencies"] = [makefilepath] + dependency_fn(target["input"], **target["kwargs"])
     except (IOError, OSError) as e:
-        msg = '\nERROR: Failed loading dependencies for "{}":\n\nReceived error:\n{}'.format(target['output'], str(e))
+        msg = '\nERROR: Failed loading dependencies for "{}":\n\nReceived error:\n{}'.format(
+            target["output"], str(e)
+        )
         log(msg)
         return False
     except StaticCompilerError as e:
@@ -20,38 +22,41 @@ def load_dependencies_for_target(target, makefilepath):
 
 
 def save_dependencies_to_cache(targets, makefilepath):
-    cachefile = makefilepath + '.depscache'
-    logv('\nWriting dependencies cache: {}'.format(cachefile))
+    cachefile = makefilepath + ".depscache"
+    logv("\nWriting dependencies cache: {}".format(cachefile))
 
-    cache = [{'output': t['output'], 'dependencies': t['dependencies']}
-             for t in targets if 'dependencies' in t]
+    cache = [
+        {"output": t["output"], "dependencies": t["dependencies"]}
+        for t in targets
+        if "dependencies" in t
+    ]
 
-    with open(cachefile, 'w') as f:
+    with open(cachefile, "w") as f:
         json.dump(cache, f, indent=4)
 
 
 def load_dependencies_from_cache(targets, makefilepath):
-    cachefile = makefilepath + '.depscache'
+    cachefile = makefilepath + ".depscache"
     try:
-        with open(cachefile, 'r') as f:
+        with open(cachefile, "r") as f:
             cache = json.load(f)
     except IOError:
         return
 
     for i, entry in enumerate(cache):
-        output = entry['output']
-        deps = entry['dependencies']
+        output = entry["output"]
+        deps = entry["dependencies"]
 
         if i >= len(targets):
             break
 
-        if targets[i]['output'] == output:
-            targets[i]['dependencies'] = deps
+        if targets[i]["output"] == output:
+            targets[i]["dependencies"] = deps
 
 
 def dependencies_are_up_to_date(target):
-    output = target['output']
-    deps = target.get('dependencies')
+    output = target["output"]
+    deps = target.get("dependencies")
     last_compiled_timestamp = os.path.getmtime(output) if os.path.exists(output) else -1
 
     if not deps:
@@ -74,9 +79,9 @@ def compile_if_modified(targets, makefilepath, release):
     for target in targets:
         if dependencies_are_up_to_date(target):
             if first_up_to_date:
-                logv('')
+                logv("")
                 first_up_to_date = False
-            logv('Up-to-date: {}', target['output'])
+            logv("Up-to-date: {}", target["output"])
         else:
             modified = True
             first_up_to_date = True
@@ -100,12 +105,11 @@ def compile_all(targets, makefilepath, release):
 
 def compile_target(target, makefilepath, release):
     try:
-        logv('\nCompiling: {}'.format(target['output']))
-        compiler_fn = target['compiler_fn']
-        compiler_fn(target['input'], target['output'], release=release, **target['kwargs'])
+        logv("\nCompiling: {}".format(target["output"]))
+        compiler_fn = target["compiler_fn"]
+        compiler_fn(target["input"], target["output"], release=release, **target["kwargs"])
         load_dependencies_for_target(target, makefilepath)
         return True
     except StaticCompilerError as e:
         log(str(e))
         return False
-

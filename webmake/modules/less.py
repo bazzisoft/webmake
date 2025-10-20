@@ -14,11 +14,11 @@ def _read_less_imports(file):
     less_dir = os.path.dirname(file)
 
     for imp in imports:
-        dep = utils.resolve_possible_paths(imp, less_dir, ['.less'])
+        dep = utils.resolve_possible_paths(imp, less_dir, [".less"])
         if dep:
             deps.append(dep)
         else:
-            raise ValueError('Invalid LESS import in {}: {}'.format(file, imp))
+            raise ValueError("Invalid LESS import in {}: {}".format(file, imp))
 
     return deps
 
@@ -28,18 +28,18 @@ def less_dependencies(input_file):
 
 
 def less_compile(input_file, output_file, release=False):
-    map_file = output_file + '.map'
+    map_file = output_file + ".map"
     map_url = os.path.basename(map_file)
 
-    minify = '-x' if release else ''
+    minify = "-x" if release else ""
     if release:
-        sourcemap = ''
+        sourcemap = ""
     else:
-        sourcemap = '--source-map-url={url} --source-map={map}'.format(url=map_url, map=map_file)
+        sourcemap = "--source-map-url={url} --source-map={map}".format(url=map_url, map=map_file)
 
     cmdline = [
-        utils.get_node_bin_path('less', 'bin', 'lessc'),
-        '--no-color',
+        utils.get_node_bin_path("less", "bin", "lessc"),
+        "--no-color",
         minify,
         sourcemap,
         input_file,

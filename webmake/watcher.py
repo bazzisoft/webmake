@@ -52,9 +52,7 @@ class WatchdogEventHandler(FileSystemEventHandler):
         self.timer.start()
 
     def on_timer(self):
-        compiler.compile_if_modified(
-            settings.MAKEFILE, settings.MAKEFILEPATH, settings.RELEASE
-        )
+        compiler.compile_if_modified(settings.MAKEFILE, settings.MAKEFILEPATH, settings.RELEASE)
         log("Build complete.\n")
 
 

@@ -14,12 +14,13 @@ def _read_sass_imports(file):
     sass_dir = os.path.dirname(file)
 
     for imp in imports:
-        dep = utils.resolve_possible_paths(imp, sass_dir, ['.scss', '.sass', '.css'],
-                                           leading_underscore=True)
+        dep = utils.resolve_possible_paths(
+            imp, sass_dir, [".scss", ".sass", ".css"], leading_underscore=True
+        )
         if dep:
             deps.append(dep)
         else:
-            raise ValueError('Invalid SASS import in {}: {}'.format(file, imp))
+            raise ValueError("Invalid SASS import in {}: {}".format(file, imp))
 
     return deps
 
@@ -29,18 +30,18 @@ def sass_dependencies(input_file):
 
 
 def sass_compile(input_file, output_file, release=False):
-    map_file = output_file + '.map'
-    output_style = 'compressed' if release else 'expanded'
+    map_file = output_file + ".map"
+    output_style = "compressed" if release else "expanded"
     if release:
-        source_map = '--no-source-map'
+        source_map = "--no-source-map"
     else:
-        source_map = '--source-map'
+        source_map = "--source-map"
 
     cmdline = [
-        utils.get_node_bin_path('sass', 'sass'),
-        '--style',
+        utils.get_node_bin_path("sass", "sass"),
+        "--style",
         output_style,
-        '--quiet',
+        "--quiet",
         source_map,
         input_file,
         output_file,
